@@ -1,0 +1,173 @@
+import React, { useRef, useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import GradientButton from "./GradientButton.jsx";
+
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
+
+const InvestmentEmpowerSection = () => {
+  const sectionRef = useRef(null);
+  const containerRef = useRef(null);
+  const topImageRef = useRef(null);
+  const middleImageRef = useRef(null);
+  const bottomImageRef = useRef(null);
+
+  useEffect(() => {
+    if (!sectionRef.current || !topImageRef.current || !middleImageRef.current || !bottomImageRef.current || !containerRef.current) return;
+
+    const triggers = [];
+    const section = sectionRef.current;
+    const container = containerRef.current;
+
+    // Set initial positions
+    // Calculate initial position for upper tile: at top of viewport when section enters
+    const getInitialUpperY = () => {
+      const containerRect = container.getBoundingClientRect();
+      const sectionRect = section.getBoundingClientRect();
+      // Position upper tile so it's at viewport top (0) when section top is at viewport top
+      // This is the offset from container top to viewport top
+      return sectionRect.top - containerRect.top;
+    };
+
+    // Upper tile: starts at top of viewport (relative to container)
+    gsap.set(topImageRef.current, { y: getInitialUpperY() });
+    
+    // Central tile: starts below viewport (invisible)
+    gsap.set(middleImageRef.current, { y: "100vh" });
+    
+    // Bottom tile: starts below viewport (invisible)
+    gsap.set(bottomImageRef.current, { y: "100vh" });
+
+    // Phase 1: Upper Tile - moves from viewport top down to section center
+    const getUpperTileEndY = () => {
+      const containerRect = container.getBoundingClientRect();
+      const viewportCenter = window.innerHeight / 2;
+      // Calculate y position so tile center aligns with viewport center
+      const tileHeight = topImageRef.current.offsetHeight || containerRect.height;
+      return viewportCenter - containerRect.top - tileHeight / 2;
+    };
+
+    const upperTrigger = gsap.to(topImageRef.current, {
+      y: () => getUpperTileEndY(),
+      ease: "power2.in",
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: "bottom 50%",
+        scrub: true,
+      },
+    });
+    triggers.push(upperTrigger.scrollTrigger);
+
+    // Phase 2: Central Tile - slides up from below when upper reaches 50%
+    // Starts from below viewport, ends when its top reaches viewport top
+    const getCentralTileEndY = () => {
+      const containerRect = container.getBoundingClientRect();
+      const sectionRect = section.getBoundingClientRect();
+      // Position so central tile's top aligns with viewport top
+      return sectionRect.top - containerRect.top;
+    };
+
+    const centralTrigger = gsap.to(middleImageRef.current, {
+      y: () => getCentralTileEndY(),
+      ease: "power2.in",
+      scrollTrigger: {
+        trigger: section,
+        start: "top 50%",
+        end: "top top",
+        scrub: true,
+      },
+    });
+    triggers.push(centralTrigger.scrollTrigger);
+
+    // Phase 3: Bottom Tile - moves up when upper reaches top
+    // Calculate position where bottom tile's bottom edge is at 50% of screen
+    const getBottomTileEndY = () => {
+      const containerRect = container.getBoundingClientRect();
+      const viewportCenter = window.innerHeight / 2;
+      const tileHeight = bottomImageRef.current.offsetHeight || containerRect.height;
+      // Position so bottom tile's bottom edge is at viewport center
+      return viewportCenter - containerRect.top - tileHeight;
+    };
+
+    const bottomTrigger = gsap.to(bottomImageRef.current, {
+      y: () => getBottomTileEndY(),
+      ease: "power2.in",
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: "bottom 50%",
+        scrub: true,
+      },
+    });
+    triggers.push(bottomTrigger.scrollTrigger);
+
+    // Cleanup function
+    return () => {
+      triggers.forEach((trigger) => trigger.kill());
+    };
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      id="explore"
+      className="relative z-20 py-16 sm:py-20 lg:py-24"
+    >
+      <div className="max-w-5xl mx-auto px-4 text-center">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white leading-tight">
+          Empowering Your Investment Decisions in
+          <br className="hidden sm:block" />
+          <span className="block">
+            Leading Property Areas
+          </span>
+        </h2>
+
+        <p className="mt-5 text-sm sm:text-base md:text-lg text-gray-300 max-w-3xl mx-auto">
+          Our platform provides buyers and investors with the tools, guidance, and listings
+          they need to make confident property decisions.
+        </p>
+
+        <div className="mt-8 flex justify-center">
+          <GradientButton href="#explore" className="px-8 py-3 text-sm md:text-base">
+            Explore Properties
+          </GradientButton>
+        </div>
+      </div>
+
+      <div className="mt-16 sm:mt-20 flex justify-center overflow-visible">
+        <div
+          ref={containerRef}
+          className="relative w-[50%] aspect-[416/279] overflow-visible"
+        >
+          {/* Top (move to top direction) */}
+          <img
+            ref={topImageRef}
+            src="/assets/icons/AnimationParts/Group%2099.svg"
+            alt="A2 Properties base layers"
+            className="absolute inset-0 h-full w-full object-contain opacity-80"
+          />
+          {/* Static (do not move) */}
+          <img
+            ref={middleImageRef}
+            src="/assets/icons/AnimationParts/Frame%203467.svg"
+            alt="A2 Properties middle layer"
+            className="absolute inset-0 h-full w-full object-contain"
+          />
+
+          {/* Bottom tile (move downwards) */}
+          <img
+            ref={bottomImageRef}
+            src="/assets/icons/AnimationParts/Frame%2098.svg"
+            alt="A2 Properties logo stack"
+            className="absolute inset-0 h-full w-full object-contain drop-shadow-[0_25px_60px_rgba(0,0,0,0.7)]"
+          />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default InvestmentEmpowerSection;
+

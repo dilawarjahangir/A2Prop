@@ -1,0 +1,36 @@
+html {
+  /* Smooth scrolling is handled by Lenis JavaScript library */
+  /* scroll-behavior: smooth; is disabled to let Lenis take control */
+}
+
+html[dir="rtl"] body {
+  direction: rtl;
+}
+
+/* Hide default scrollbar (similar to WanderCode) */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom scroll progress bar on the right edge */
+.scroll-progress-track {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  background-color: #ffffff; /* white track */
+}
+
+.scroll-progress-bar {
+  width: 4px;
+  height: 0;
+  background-color: #000000; /* black progress */
+}
+
+@media screen and (max-width: 992px) {
+  .scroll-progress-track {
+    display: none;
+  }
+}
