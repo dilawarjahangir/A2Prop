@@ -5,6 +5,7 @@ import { Navigation } from "swiper/modules";
 import { getPropertiesForLocale, properties } from "../data/properties.js";
 import { useTranslation } from "react-i18next";
 import { getLocale } from "../hooks/useLocale.js";
+import OptimizedImage from "./OptimizedImage.jsx";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -215,10 +216,11 @@ const SignatureShowcase = () => {
                             <SwiperSlide
                               key={`${listing.title}-image-${imgIndex}`}
                             >
-                              <img
+                              <OptimizedImage
                                 src={image}
                                 alt={`${listing.subtitle} image ${imgIndex + 1}`}
-                                className="object-cover h-full w-full"
+                                className="block h-full w-full"
+                                imgClassName="object-cover h-full w-full"
                                 loading={isLeadImage ? "eager" : "lazy"}
                                 decoding="async"
                                 fetchPriority={isLeadImage ? "high" : "auto"}

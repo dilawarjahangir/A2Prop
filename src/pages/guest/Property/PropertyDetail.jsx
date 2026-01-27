@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import GradientButton from "../../../components/GradientButton.jsx";
 import { properties, getPropertyBySlug, getPropertiesForLocale } from "../../../data/properties.js";
 import { getLocale } from "../../../hooks/useLocale.js";
+import OptimizedImage from "../../../components/OptimizedImage.jsx";
 
 const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
 
@@ -291,11 +292,14 @@ const RecommendationCard = ({ item }) => {
   return (
   <div className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex flex-col">
     <div className="relative">
-      <img
+      <OptimizedImage
         src={item.gallery[0]}
         alt={item.title}
-        className="h-44 w-full object-cover"
+        className="block h-44 w-full"
+        imgClassName="h-full w-full object-cover"
         loading="lazy"
+        decoding="async"
+        sizes="(max-width: 640px) 100vw, 50vw"
       />
       {item.badge && (
         <span className="absolute top-3 left-3 rounded-full bg-black/70 border border-white/15 px-3 py-1 text-xs font-semibold text-white">
@@ -639,11 +643,14 @@ const PropertyDetail = () => {
           className={`md:col-span-2 ${galleryHeight} rounded-3xl overflow-hidden border border-white/10 bg-white/5 relative group text-left`}
         >
           {mainImage && (
-            <img
+            <OptimizedImage
               src={mainImage}
               alt={`Gallery image ${activeIndex + 1}`}
-              className="w-full h-full object-cover transition duration-300 group-hover:scale-[1.01]"
+              className="block w-full h-full"
+              imgClassName="w-full h-full object-cover transition duration-300 group-hover:scale-[1.01]"
               loading="lazy"
+              decoding="async"
+              sizes="(max-width: 1024px) 100vw, 66vw"
             />
           )}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
@@ -680,11 +687,14 @@ const PropertyDetail = () => {
                     : "border-white/10"
                 }`}
               >
-                <img
+                <OptimizedImage
                   src={src}
                   alt={`Gallery ${idx + 1}`}
-                  className="h-full w-full object-cover transition duration-200 hover:scale-[1.02]"
+                  className="block h-full w-full"
+                  imgClassName="h-full w-full object-cover transition duration-200 hover:scale-[1.02]"
                   loading="lazy"
+                  decoding="async"
+                  sizes="140px"
                 />
                 {activeIndex === idx && (
                   <span className="absolute inset-0 border-2 border-white/40 rounded-2xl pointer-events-none" />
@@ -730,11 +740,14 @@ const PropertyDetail = () => {
 
         <div className="rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-7 space-y-4">
           <div className="flex items-center gap-4">
-            <img
+            <OptimizedImage
               src={property.agent.avatar}
               alt={property.agent.name}
-              className="h-14 w-13   object-cover "
+              className="h-14 w-13"
+              imgClassName="h-14 w-13 object-cover"
               loading="lazy"
+              decoding="async"
+              sizes="56px"
             />
             <div>
               <p className="text-lg font-semibold">{property.agent.name}</p>

@@ -120,7 +120,7 @@ const ClientTestimonials = () => {
               renderBullet: (index, className) => {
                 const item = testimonials[index % testimonials.length];
                 return `<span class="${className} testimonial-thumb" aria-label="${item.name}">
-                  <span class="testimonial-thumb__image" style="background-image:url('${item.photo}')"></span>
+                  <img class="testimonial-thumb__image" src="${item.photo}" alt="${item.name}" loading="lazy" decoding="async" />
                 </span>`;
               },
             }}

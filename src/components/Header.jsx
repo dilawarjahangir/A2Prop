@@ -3,6 +3,7 @@ import GradientButton from "./GradientButton.jsx";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { getLocale, setLocale } from "../hooks/useLocale";
+import OptimizedImage from "./OptimizedImage.jsx";
 
 const navItems = [
   { key: "home", href: "/" },
@@ -124,10 +125,13 @@ const Header = () => {
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between gap-6">
           <div className="flex items-center gap-3">
             <Link to="/" className="flex items-center">
-              <img
+              <OptimizedImage
                 src="/assets/icons/logo.svg"
                 alt="A2 Properties logo"
-                className="h-14 w-15"
+                imgClassName="h-14 w-15"
+                loading="lazy"
+                decoding="async"
+                sizes="80px"
               />
             </Link>
           </div>

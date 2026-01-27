@@ -1,25 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import OptimizedImage from "./OptimizedImage.jsx";
 
 const reels = [
   {
-    src: "/assets/images/latest-work/Frame%203360.png",
+    src: "/assets/images/latest-work/frame-3360.png",
     duration: "0:54",
     slug: "selvara-phase-2",
   },
   {
-    src: "/assets/images/latest-work/Frame%203361.png",
+    src: "/assets/images/latest-work/frame-3361.png",
     duration: "3:11",
     slug: "samana-hills-south-phase-3",
   },
   {
-    src: "/assets/images/latest-work/Frame%203362.png",
+    src: "/assets/images/latest-work/frame-3362.png",
     duration: "0:19",
     slug: "sera-by-emaar",
   },
   {
-    src: "/assets/images/latest-work/Frame%203364.png",
+    src: "/assets/images/latest-work/frame-3364.png",
     duration: "1:37",
     slug: "soulever",
   },
@@ -47,10 +48,14 @@ const LatestWorks = () => {
               to={`/properties/${item.slug}`}
               className="relative block h-[400px] rounded-3xl overflow-hidden bg-black group focus:outline-none focus:ring-2 focus:ring-white/60"
             >
-              <img
+              <OptimizedImage
                 src={item.src}
                 alt={`Latest work ${idx + 1}`}
-                className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+                className="block h-full w-full"
+                imgClassName="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+                loading="lazy"
+                decoding="async"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
               <div className="absolute bottom-4 left-4 flex items-center gap-2 text-white font-semibold text-sm">

@@ -573,7 +573,7 @@ const InvestmentEmpowerSection = () => {
               {/* TOP */}
               <img
                 ref={topImageRef}
-                src="/assets/icons/AnimationParts/Frame%2098.svg"
+                src="/assets/icons/AnimationParts/frame-98.svg"
                 alt="A2 Properties logo stack"
                 className="absolute inset-0 w-full h-auto"
                 style={{
@@ -604,7 +604,7 @@ const InvestmentEmpowerSection = () => {
 
                 <img
                   ref={middleImgRef}
-                  src="/assets/icons/AnimationParts/Group%2099.svg"
+                  src="/assets/icons/AnimationParts/group-99.svg"
                   alt="A2 Properties middle layer"
                   className="w-full h-auto relative"
                 />
@@ -663,7 +663,7 @@ const InvestmentEmpowerSection = () => {
               {/* BOTTOM */}
               <img
                 ref={bottomImageRef}
-                src="/assets/icons/AnimationParts/Frame%203467.svg"
+                src="/assets/icons/AnimationParts/frame-3467.svg"
                 alt="A2 Properties base layers"
                 className="absolute inset-0 w-full h-auto"
                 style={{

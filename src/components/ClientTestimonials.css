@@ -30,10 +30,10 @@
   width: 100%;
   height: 100%;
   border-radius: 9999px;
-  background-size: cover;
-  background-position: center;
+  object-fit: cover;
   border: 1px solid rgba(255, 255, 255, 0.28);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  display: block;
 }
 
 .testimonial-thumb.swiper-pagination-bullet-active {

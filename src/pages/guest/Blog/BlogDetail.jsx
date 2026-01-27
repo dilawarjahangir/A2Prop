@@ -4,6 +4,7 @@ import GradientButton from "../../../components/GradientButton.jsx";
 import { blogs, getBlogBySlug, getBlogsForLocale } from "../../../data/blogs.js";
 import { getLocale } from "../../../hooks/useLocale.js";
 import { useTranslation } from "react-i18next";
+import OptimizedImage from "../../../components/OptimizedImage.jsx";
 
 const parseBlogDate = (value) => {
   const ts = Date.parse(value);
@@ -82,11 +83,14 @@ const BlockRenderer = ({ block }) => {
     return (
       <figure className="space-y-3">
         <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
-          <img
+          <OptimizedImage
             src={block.src}
             alt={block.alt || "Blog image"}
-            className="w-full h-auto object-cover"
+            className="block w-full h-auto"
+            imgClassName="w-full h-auto object-cover"
             loading="lazy"
+            decoding="async"
+            sizes="(max-width: 1024px) 100vw, 75vw"
           />
         </div>
         {block.caption && (
@@ -345,11 +349,14 @@ const BlogDetail = () => {
       </div>
 
       <div className="rounded-3xl overflow-hidden border border-white/10 bg-white/5">
-        <img
+        <OptimizedImage
           src={post.image}
           alt={post.title}
-          className="w-full h-[260px] sm:h-[360px] object-cover"
+          className="block w-full h-[260px] sm:h-[360px]"
+          imgClassName="w-full h-full object-cover"
           loading="lazy"
+          decoding="async"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 70vw"
         />
       </div>
 
