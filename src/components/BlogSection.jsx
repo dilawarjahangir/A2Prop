@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { blogs, getBlogsForLocale } from "../data/blogs.js";
 import { getLocale } from "../hooks/useLocale.js";
-import OptimizedImage from "./OptimizedImage.jsx";
 
 const parseBlogDate = (value) => {
   const ts = Date.parse(value);
@@ -51,14 +50,10 @@ const Partners = () => {
             to={`/blog/${featured.slug}`}
             className="group relative overflow-hidden rounded-[28px] bg-[#111]"
           >
-            <OptimizedImage
+            <img
               src={featured.image}
               alt={featured.title}
-              className="block h-[280px] w-full sm:h-[360px] lg:h-[420px]"
-              imgClassName="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
-              loading="lazy"
-              decoding="async"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 60vw, 50vw"
+              className="h-[280px] w-full object-cover sm:h-[360px] lg:h-[420px] transition duration-500 group-hover:scale-[1.02]"
             />
 
             {/* Tag pill */}
@@ -108,14 +103,10 @@ const Partners = () => {
               className="group flex items-center gap-5"
             >
               <div className="shrink-0 overflow-hidden rounded-2xl bg-[#111]">
-                <OptimizedImage
+                <img
                   src={item.image}
                   alt={item.title}
-                  className="block h-[92px] w-[140px] sm:h-[110px] sm:w-[170px]"
-                  imgClassName="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
-                  loading="lazy"
-                  decoding="async"
-                  sizes="170px"
+                  className="h-[92px] w-[140px] object-cover sm:h-[110px] sm:w-[170px] transition duration-500 group-hover:scale-[1.03]"
                 />
               </div>
 

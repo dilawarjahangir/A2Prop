@@ -4,7 +4,6 @@ import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
-import OptimizedImage from "./OptimizedImage.jsx";
 
 const members = [
   {
@@ -224,14 +223,10 @@ const TeamShowcase = () => {
       {members.map((member) => (
         <SwiperSlide key={member.name}>
           <div className="group relative h-[180px] sm:h-[200px] md:h-[220px] rounded-2xl sm:rounded-3xl md:rounded-[32px] overflow-hidden ">
-            <OptimizedImage
+            <img
               src={member.img}
               alt={member.name}
-              className="block h-full w-full"
-              imgClassName="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-              loading="lazy"
-              decoding="async"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
             />
 
             {/* Dark gradient at bottom like the design */}

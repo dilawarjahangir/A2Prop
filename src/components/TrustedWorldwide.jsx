@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback, useMemo } from "react";
 import Globe from "globe.gl";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
@@ -7,124 +7,77 @@ import "swiper/css/navigation";
 import "swiper/css/autoplay";
 import ReactCountryFlag from "react-country-flag";
 
+/**
+ * KEY OPTIMIZATIONS (Swiper)
+ * - Remove manual duplication array; let Swiper loop handle cloning.
+ * - Use freeMode for true continuous marquee feel (no “slide snapping” work).
+ * - Use autoplay.delay=0 + speed for constant motion.
+ * - Use touchRatio/threshold tweaks for lighter interaction.
+ * - Use fewer re-inits: wire nav once via onBeforeInit + a single effect.
+ * - Use observer flags carefully (avoid observeParents unless needed).
+ * - Add memoized slide component so React doesn’t re-render all slides.
+ */
+
 const markets = [
-  {
-    name: "United Kingdom",
-    amount: "35 Agents",
-    code: "GB",
-  },
-  {
-    name: "Germany",
-    amount: "12 Agents",
-    code: "DE",
-  },
-  {
-    name: "France",
-    amount: "8 Agents",
-    code: "FR",
-  },
-  {
-    name: "Italy",
-    amount: "7 Agents",
-    code: "IT",
-  },
-  {
-    name: "Netherlands",
-    amount: "8 Agents",
-    code: "NL",
-  },
-  {
-    name: "Saudi Arabia",
-    amount: "12 Agents",
-    code: "SA",
-  },
-  {
-    name: "Qatar",
-    amount: "4 Agents",
-    code: "QA",
-  },
-  {
-    name: "Kuwait",
-    amount: "5 Agents",
-    code: "KW",
-  },
-  {
-    name: "Oman",
-    amount: "3 Agents",
-    code: "OM",
-  },
-  {
-    name: "Bahrain",
-    amount: "3 Agents",
-    code: "BH",
-  },
-  {
-    name: "Egypt",
-    amount: "7 Agents",
-    code: "EG",
-  },
-  {
-    name: "Jordan",
-    amount: "4 Agents",
-    code: "JO",
-  },
-  {
-    name: "Lebanon",
-    amount: "4 Agents",
-    code: "LB",
-  },
-  {
-    name: "Sudan",
-    amount: "3 Agents",
-    code: "SD",
-  },
-  {
-    name: "Nigeria",
-    amount: "10 Agents",
-    code: "NG",
-  },
-  {
-    name: "Kenya",
-    amount: "6 Agents",
-    code: "KE",
-  },
-  {
-    name: "South Africa",
-    amount: "5 Agents",
-    code: "ZA",
-  },
-  {
-    name: "United States",
-    amount: "6 Agents",
-    code: "US",
-  },
-  {
-    name: "Canada",
-    amount: "5 Agents",
-    code: "CA",
-  },
-  {
-    name: "Australia",
-    amount: "4 Agents",
-    code: "AU",
-  },
-  {
-    name: "Turkey",
-    amount: "5 Agents",
-    code: "TR",
-  },
+  { name: "United Kingdom", amount: "35 Agents", code: "GB" },
+  { name: "Germany", amount: "12 Agents", code: "DE" },
+  { name: "France", amount: "8 Agents", code: "FR" },
+  { name: "Italy", amount: "7 Agents", code: "IT" },
+  { name: "Netherlands", amount: "8 Agents", code: "NL" },
+  { name: "Saudi Arabia", amount: "12 Agents", code: "SA" },
+  { name: "Qatar", amount: "4 Agents", code: "QA" },
+  { name: "Kuwait", amount: "5 Agents", code: "KW" },
+  { name: "Oman", amount: "3 Agents", code: "OM" },
+  { name: "Bahrain", amount: "3 Agents", code: "BH" },
+  { name: "Egypt", amount: "7 Agents", code: "EG" },
+  { name: "Jordan", amount: "4 Agents", code: "JO" },
+  { name: "Lebanon", amount: "4 Agents", code: "LB" },
+  { name: "Sudan", amount: "3 Agents", code: "SD" },
+  { name: "Nigeria", amount: "10 Agents", code: "NG" },
+  { name: "Kenya", amount: "6 Agents", code: "KE" },
+  { name: "South Africa", amount: "5 Agents", code: "ZA" },
+  { name: "United States", amount: "6 Agents", code: "US" },
+  { name: "Canada", amount: "5 Agents", code: "CA" },
+  { name: "Australia", amount: "4 Agents", code: "AU" },
+  { name: "Turkey", amount: "5 Agents", code: "TR" },
 ];
 
-// Duplicate list just for Swiper so loop feels continuous like Team
-const loopedMarkets = [...markets, ...markets];
+const MarketCard = React.memo(function MarketCard({
+  name,
+  amount,
+  code,
+}: {
+  name: string;
+  amount: string;
+  code: string;
+}) {
+  return (
+    <div className="rounded-xl sm:rounded-2xl w-[250px] bg-white/90 border border-black/5 shadow-lg backdrop-blur py-3 flex flex-col items-center justify-center">
+      <div className="flex items-center justify-center gap-2 text-gray-800 font-semibold mb-2 sm:mb-3">
+        <ReactCountryFlag
+          countryCode={code}
+          svg
+          title={name}
+          style={{
+            width: "1.5em",
+            height: "1.5em",
+            borderRadius: "0.125rem",
+          }}
+        />
+        <span className="text-sm sm:text-base">{name}</span>
+      </div>
+      <div className="text-xl self-center sm:text-2xl md:text-3xl font-semibold text-gray-900">
+        {amount}
+      </div>
+    </div>
+  );
+});
 
 const SpinningGlobe = () => {
-  const globeRef = useRef(null);
+  const globeRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!globeRef.current) {
-      return;
-    }
+    if (!globeRef.current) return;
 
     const globe = Globe()(globeRef.current)
       .globeImageUrl("https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg")
@@ -146,12 +99,10 @@ const SpinningGlobe = () => {
     renderer.setClearColor(0x000000, 0);
 
     const handleResize = () => {
-      if (!globeRef.current) {
-        return;
-      }
-      const { clientWidth, clientHeight } = globeRef.current;
-      globe.width(clientWidth);
-      globe.height(clientHeight);
+      const el = globeRef.current;
+      if (!el) return;
+      globe.width(el.clientWidth);
+      globe.height(el.clientHeight);
     };
 
     handleResize();
@@ -159,96 +110,94 @@ const SpinningGlobe = () => {
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      if (globeRef.current) {
-        globeRef.current.innerHTML = "";
-      }
+      if (globeRef.current) globeRef.current.innerHTML = "";
     };
   }, []);
 
-  return <div ref={globeRef} className="h-full w-full rounded-full overflow-hidden" aria-label="Spinning globe" role="img" />;
+  return (
+    <div
+      ref={globeRef}
+      className="h-full w-full rounded-full overflow-hidden"
+      aria-label="Spinning globe"
+      role="img"
+    />
+  );
 };
 
 const TrustedWorldwide = () => {
-  const prevRef = useRef(null);
-  const nextRef = useRef(null);
-  const swiperRef = useRef(null);
-  const resumeTimerRef = useRef(null);
+  const prevRef = useRef<HTMLButtonElement | null>(null);
+  const nextRef = useRef<HTMLButtonElement | null>(null);
+  const swiperRef = useRef<any>(null);
+  const resumeTimerRef = useRef<number | null>(null);
+
+  const slides = useMemo(() => markets, []);
 
   const clearResumeTimer = useCallback(() => {
     if (resumeTimerRef.current) {
-      clearTimeout(resumeTimerRef.current);
+      window.clearTimeout(resumeTimerRef.current);
       resumeTimerRef.current = null;
     }
   }, []);
 
-  const handleNavigation = useCallback(() => {
-    if (swiperRef.current && swiperRef.current.autoplay) {
-      swiperRef.current.autoplay.stop();
+  const setLinear = useCallback((swiper: any) => {
+    if (swiper?.wrapperEl) swiper.wrapperEl.style.transitionTimingFunction = "linear";
+  }, []);
 
-      // Normal speed on manual navigation
-      if (swiperRef.current.params) {
-        swiperRef.current.params.speed = 500;
-      }
-      if (swiperRef.current.wrapperEl) {
-        swiperRef.current.wrapperEl.style.transitionTimingFunction = "ease";
-      }
+  const setEase = useCallback((swiper: any) => {
+    if (swiper?.wrapperEl) swiper.wrapperEl.style.transitionTimingFunction = "ease";
+  }, []);
 
-      clearResumeTimer();
+  const stopAndResume = useCallback(() => {
+    const swiper = swiperRef.current;
+    if (!swiper?.autoplay) return;
 
-      // Resume continuous scroll after 5s
-      resumeTimerRef.current = setTimeout(() => {
-        if (swiperRef.current && swiperRef.current.autoplay) {
-          if (swiperRef.current.params) {
-            swiperRef.current.params.speed = 3000;
-          }
-          if (swiperRef.current.wrapperEl) {
-            swiperRef.current.wrapperEl.style.transitionTimingFunction = "linear";
-          }
-          swiperRef.current.autoplay.start();
-        }
-        resumeTimerRef.current = null;
-      }, 5000);
-    }
-  }, [clearResumeTimer]);
+    swiper.autoplay.stop();
+    // Quick, responsive manual nav
+    if (swiper.params) swiper.params.speed = 450;
+    setEase(swiper);
+
+    clearResumeTimer();
+    resumeTimerRef.current = window.setTimeout(() => {
+      const s = swiperRef.current;
+      if (!s?.autoplay) return;
+      if (s.params) s.params.speed = 3000;
+      setLinear(s);
+      s.autoplay.start();
+      resumeTimerRef.current = null;
+    }, 2500); // shorter is usually enough; keeps CPU lower than long stop cycles
+  }, [clearResumeTimer, setEase, setLinear]);
 
   useEffect(() => {
-    if (
-      swiperRef.current &&
-      prevRef.current &&
-      nextRef.current &&
-      swiperRef.current.params.navigation
-    ) {
-      swiperRef.current.params.navigation.prevEl = prevRef.current;
-      swiperRef.current.params.navigation.nextEl = nextRef.current;
-      swiperRef.current.navigation.destroy();
-      swiperRef.current.navigation.init();
-      swiperRef.current.navigation.update();
-    }
+    const prev = prevRef.current;
+    const next = nextRef.current;
+    if (!prev || !next) return;
 
-    const prevButton = prevRef.current;
-    const nextButton = nextRef.current;
-
-    const handleButtonInteraction = () => {
-      handleNavigation();
-    };
-
-    if (prevButton) {
-      prevButton.addEventListener("click", handleButtonInteraction, { passive: true });
-    }
-    if (nextButton) {
-      nextButton.addEventListener("click", handleButtonInteraction, { passive: true });
-    }
+    const onClick = () => stopAndResume();
+    prev.addEventListener("click", onClick, { passive: true });
+    next.addEventListener("click", onClick, { passive: true });
 
     return () => {
       clearResumeTimer();
-      if (prevButton) {
-        prevButton.removeEventListener("click", handleButtonInteraction);
-      }
-      if (nextButton) {
-        nextButton.removeEventListener("click", handleButtonInteraction);
-      }
+      prev.removeEventListener("click", onClick);
+      next.removeEventListener("click", onClick);
     };
-  }, [handleNavigation, clearResumeTimer]);
+  }, [stopAndResume, clearResumeTimer]);
+
+  // IMPORTANT: wire navigation ONCE and re-init after refs exist
+  useEffect(() => {
+    const swiper = swiperRef.current;
+    if (!swiper || !prevRef.current || !nextRef.current) return;
+
+    swiper.params.navigation = {
+      ...(swiper.params.navigation || {}),
+      prevEl: prevRef.current,
+      nextEl: nextRef.current,
+    };
+
+    swiper.navigation?.destroy?.();
+    swiper.navigation?.init?.();
+    swiper.navigation?.update?.();
+  }, []);
 
   return (
     <section className="space-y-6 sm:space-y-10">
@@ -256,13 +205,7 @@ const TrustedWorldwide = () => {
         {/* Globe */}
         <div className="absolute left-1/2 top-[40%] w-[560px] h-[560px] sm:w-[620px] sm:h-[620px] md:w-[760px] md:h-[760px] lg:w-[820px] lg:h-[820px] -translate-y-1/2 -translate-x-1/2 pointer-events-auto">
           <SpinningGlobe />
-          <div
-            className="
-              pointer-events-none
-              absolute inset-0
-              rounded-full
-            "
-          />
+          <div className="pointer-events-none absolute inset-0 rounded-full" />
         </div>
 
         {/* Text over globe */}
@@ -280,62 +223,57 @@ const TrustedWorldwide = () => {
         <div className="relative mt-4 pb-6">
           <Swiper
             modules={[Navigation, Autoplay]}
-            navigation={{ prevEl: prevRef.current, nextEl: nextRef.current }}
-            spaceBetween={10  }
-            slidesPerView={3.4}
-            grabCursor
-            loop={true}
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper;
+              // Default: continuous linear motion
+              if (swiper.params) swiper.params.speed = 3000;
+              setLinear(swiper);
+            }}
+            onBeforeInit={(swiper) => {
+              // Attach refs before init so Swiper doesn't thrash re-init
+              // (refs may still be null on first pass; we re-init once in the effect above)
+              // @ts-ignore
+              swiper.params.navigation = {
+                ...(swiper.params.navigation || {}),
+                prevEl: prevRef.current,
+                nextEl: nextRef.current,
+              };
+            }}
+            navigation={{ enabled: true }}
+            // Continuous marquee feel:
+            loop
+            loopAdditionalSlides={slides.length} // helps prevent loop hiccups
+            watchSlidesProgress={false}
+            // Avoid heavy DOM observation unless you need it:
+            observer={false}
+            observeParents={false}
+            // "Marquee" settings:
             speed={3000}
             autoplay={{
-              delay: 1,
+              delay: 0, // important for continuous scroll
               disableOnInteraction: false,
               pauseOnMouseEnter: false,
               stopOnLastSlide: false,
+              waitForTransition: false,
             }}
-            slidesPerGroup={1}
+            // Lower interaction overhead:
+            grabCursor
+            threshold={8}
+            touchRatio={0.8}
+            resistanceRatio={0.6}
+            // Layout:
+            spaceBetween={24}
+            slidesPerView={3.2}
             breakpoints={{
               0: { slidesPerView: 1.1, spaceBetween: 16 },
               640: { slidesPerView: 1.4, spaceBetween: 18 },
               1024: { slidesPerView: 3.2, spaceBetween: 24 },
               1440: { slidesPerView: 3.6, spaceBetween: 28 },
             }}
-            onSwiper={(swiper) => {
-              swiperRef.current = swiper;
-              // Same continuous scroll as team
-              if (swiper.wrapperEl) {
-                swiper.wrapperEl.style.transitionTimingFunction = "linear";
-              }
-              setTimeout(() => {
-                if (swiper.params.navigation && prevRef.current && nextRef.current) {
-                  swiper.params.navigation.prevEl = prevRef.current;
-                  swiper.params.navigation.nextEl = nextRef.current;
-                  swiper.navigation.destroy();
-                  swiper.navigation.init();
-                  swiper.navigation.update();
-                }
-              }, 100);
-            }}
           >
-            {loopedMarkets.map((item, idx) => (
-              <SwiperSlide key={`${item.name}-${idx}`}>
-                <div className=" rounded-xl sm:rounded-2xl w-[250px] bg-white/90 border border-black/5 shadow-lg backdrop-blur py-3 flex flex-col items-center justify-center">
-                  <div className="flex items-center justify-center gap-2 text-gray-800 font-semibold mb-2 sm:mb-3"  >
-                    <ReactCountryFlag
-                      countryCode={item.code}
-                      svg
-                      title={item.name}
-                      style={{
-                        width: "1.5em",
-                        height: "1.5em",
-                        borderRadius: "0.125rem",
-                      }}
-                    />
-                    <span className="text-sm sm:text-base">{item.name}</span>
-                  </div>
-                  <div className="text-xl self-center sm:text-2xl md:text-3xl font-semibold text-gray-900">
-                    {item.amount}
-                  </div>
-                </div>
+            {slides.map((item) => (
+              <SwiperSlide key={item.code}>
+                <MarketCard name={item.name} amount={item.amount} code={item.code} />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -346,18 +284,16 @@ const TrustedWorldwide = () => {
               ref={prevRef}
               className="h-8 w-8 sm:h-10 sm:w-10 rounded-full border border-white/50 bg-white/20 backdrop-blur flex items-center justify-center hover:border-white transition-colors"
               aria-label="Previous"
+              type="button"
             >
-              <img
-                src="/assets/icons/arrow.svg"
-                alt=""
-                aria-hidden="true"
-                className="h-3 w-3 sm:h-4 sm:w-4"
-              />
+              <img src="/assets/icons/arrow.svg" alt="" aria-hidden="true" className="h-3 w-3 sm:h-4 sm:w-4" />
             </button>
+
             <button
               ref={nextRef}
               className="h-8 w-8 sm:h-10 sm:w-10 rounded-full border border-white/50 bg-white/20 backdrop-blur flex items-center justify-center hover:border-white transition-colors"
               aria-label="Next"
+              type="button"
             >
               <img
                 src="/assets/icons/arrow.svg"
@@ -369,7 +305,7 @@ const TrustedWorldwide = () => {
           </div>
         </div>
       </div>
-      </section>
+    </section>
   );
 };
 

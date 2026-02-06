@@ -41,10 +41,13 @@ The app is fully client‑side: routing, state, content modelling, and animation
 
 ### Data & rich content
 
-- Static content modelled as JavaScript objects in:
-  - `src/data/blogs.js` – blog posts with sections and typed blocks (paragraphs, lists, steps, tables, images, callouts, FAQ groups, etc.).
-  - `src/data/properties.js` – property listings including pricing, highlights, amenities, payment plans, timelines, mortgage defaults, and map queries.
-- Blog detail and property detail pages render these objects into UI components rather than hard‑coding copy in JSX.
+- **Backend‑driven data** for properties and meta:
+  - Listings, property detail, developers, amenities, and locations are fetched from the backend (`/api/v1/*`) via the API client in `src/api/`.
+  - Environment variable: `VITE_API_BASE_URL` (falls back to window origin); requests are JSON and include timeouts + abort handling.
+- **Static content** for marketing/blog:
+  - `src/data/blogs.js` – blog posts with typed blocks (paragraphs, lists, steps, tables, images, callouts, FAQ groups, etc.).
+  - Legacy `src/data/properties.js` remains for some marketing sections (e.g., “SignatureShowcase”) but listing/detail pages now source from the live API.
+  - Blog detail and marketing sections render these objects into UI components rather than hard‑coding copy in JSX.
 
 ### Tooling & quality
 
@@ -167,29 +170,16 @@ Vite dev server is configured in `vite.config.js` with custom `allowedHosts` for
   - Includes a robust `tryCopyToClipboard` helper that falls back to `document.execCommand` when `navigator.clipboard` is unavailable.
 
 - `src/pages/guest/Property/PropertyListings.jsx`
-  - Grid of property cards powered by `properties.js`.
-  - Each card:
-    - Shows hero image, badge, status, key stats (location, title, AED price, highlights).
-    - Links to `/properties/:slug`.
-    - Offers a `tel:` link for quick calling via `item.agent.phone`.
-  - Header block uses `GradientButton` to jump to a “featured” anchor and link back to home.
+  - Grid of property cards powered by live backend data (`getListings` from `src/api/listings.js`).
+  - Filters: type (SELL/RENT/NEW), search `q`, min/max price, beds, propertyType, fetchAll toggle, pagination (page/size).
+  - Each card shows hero image, status, location, title, AED price, highlights, “view details” link, and `tel:` CTA.
+  - Error/empty/loading states included; pagination controls at bottom with styled “per page” selector.
 
 - `src/pages/guest/Property/PropertyDetail.jsx`
-  - Rich property detail page keyed by `slug` from `useParams`, using `getPropertyBySlug`.
-  - Locale‑aware property selection via `getPropertiesForLocale(getLocale())`, with safe fallback to English data.
-  - Key features:
-    - Hero image gallery with thumbnails and overlayed status / pricing chips.
-    - Property meta (title, badges, location, beds/baths/area, completion, etc.).
-    - “Key Facts” cards rendered from `property.facts`.
-    - Mortgage calculator (`MortgageCalculator`) with:
-      - Flexible parsing of numeric input (`toNumber`, `clamp` helpers).
-      - Formatted output using `Intl.NumberFormat`.
-      - Derived loan amount and monthly repayments based on down payment %, term, and rate.
-    - Timeline and payment plan sections rendered from structured data.
-    - Scroll‑revealed sections using `ScrollFadeIn`.
-    - Expandable description (`ExpandableDescription`) that collapses long narrative text.
-    - Embedded Google Maps iframe based on `property.mapQuery`, plus a button to open Google Maps in a new tab.
-    - Recommended listings using simple heuristic based on type / badge.
+  - Fetches property detail by slug from the backend (`getPropertyDetail`).
+  - Normalizes gallery URLs to Pixxi CDN host; renders swipeable/thumbnail gallery.
+  - Renders facts (price, beds, baths, size, developer, city, status, type, region, permit), description, amenities, payment plan/timeline, agent contact buttons, and Google Maps embed.
+  - Shows floorplan/styles (from `raw.style`) when available, and recommended listings from the API response.
 
 - `src/pages/NotFoundPage.jsx`
   - Fallback “404” page rendered for unmatched routes.
@@ -277,20 +267,15 @@ Most of the application’s behavior lives in `src/components/`. Highlights:
     - `sections` – array of `{ id, title, blocks }`, where `blocks` is a typed content model consumed by `BlockRenderer`.
     - Optional `faqs`.
 
+- `src/api/`
+  - `client.js` – base API client with `request(path, { method, params, body, timeout })`, shared `API_BASE_URL`, JSON parsing, and abortable timeouts.
+  - `utils.js` – `buildQuery`, `safeNumber`, `formatCurrency`, `mergeParamsWithDefaults`.
+  - `listings.js` – `getListings(filters)` and `getPropertyDetail(slug)` hitting `/api/v1/listings` and `/api/v1/properties/:slug`.
+  - `meta.js` – memoized fetchers for `/api/v1/meta/developers`, `/api/v1/meta/amenities`, `/api/v1/meta/locations` with TTL caching.
+  - `types.js` (if present) – shared typedefs/utilities for API shapes.
+
 - `src/data/properties.js`
-  - Exports:
-    - `properties` / `propertiesAr` – arrays of property objects per locale.
-    - `propertiesByLocale`, `getPropertiesForLocale(locale)` – locale‑aware lists.
-    - `getPropertyBySlug(slug, locale?)` – direct equality slug lookup with locale awareness.
-  - Each property includes:
-    - Identity: `slug`, `title`, `id`, `badge`.
-    - Pricing: `priceUSD`, `priceAED`, `status`, `paymentPlan`.
-    - Physical details: `location`, `type`, `completion`, `furnishing`, `beds`, `baths`, `area`, `parking`.
-    - Media: `gallery` image paths.
-    - Narrative `description` paragraphs.
-    - Fact table (`facts`), `amenities`, `timeline`, `mortgage` presets.
-    - `agent` info for display and `tel:` link construction.
-    - `mapQuery` used to build Google Maps links and embeds.
+  - Legacy structured property content used by some marketing components; listing/detail pages now rely on the backend API instead.
 
 ---
 
@@ -325,6 +310,7 @@ Most of the application’s behavior lives in `src/components/`. Highlights:
 - **Run locally**
   - Install dependencies: `npm install`
   - Start dev server: `npm run dev` (Vite on port `5173` by default).
+  - Ensure `VITE_API_BASE_URL` is set (e.g., `http://localhost:4000`) so property listing/detail calls reach the backend; otherwise the client will fall back to the current window origin.
 
 - **Build & preview**
   - Production build: `npm run build`

@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import OptimizedImage from "./OptimizedImage.jsx";
 
 const features = [
   {
@@ -65,12 +64,10 @@ const AIFeaturesSection = () => {
           <div className="flex justify-center lg:justify-end">
             <div className="relative w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px]">
               {/* Phone Border Image - Overlay */}
-              <OptimizedImage
+              <img
                 src="/assets/images/phone-border.webp"
                 alt="Phone mockup"
                 className="relative z-10 w-full h-auto pointer-events-none"
-                imgClassName="w-full h-auto pointer-events-none"
-                sizes="(max-width: 640px) 80vw, (max-width: 1024px) 320px, 360px"
               />
 
               {/* Video Container - Behind phone border, clipped to screen */}

@@ -1,9 +1,34 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
 import Lenis from 'lenis';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export const useSmoothScroll = () => {
+  const lenisRef = useRef(null);
+  const rafIdRef = useRef(null);
+
   useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+
+    const isCoarsePointer =
+      window.matchMedia?.('(hover: none) and (pointer: coarse)')?.matches ?? false;
+    if (isCoarsePointer) {
+      // On touch devices, prefer native scroll to avoid lockups
+      document.documentElement.style.scrollBehavior = 'auto';
+      return undefined;
+    }
+
+    const prefersReducedMotion =
+      window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
+
+    // Respect reduced motion: keep native scrolling
+    if (prefersReducedMotion) {
+      document.documentElement.style.scrollBehavior = 'auto';
+      return undefined;
+    }
+
     // Initialize Lenis smooth scroll
     const lenis = new Lenis({
       duration: 1.2,
@@ -17,18 +42,35 @@ export const useSmoothScroll = () => {
       infinite: false,
     });
 
+    lenisRef.current = lenis;
+
     // Integrate Lenis with GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
 
     // Animation frame function
-    let rafId;
     const raf = (time) => {
       lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
+      rafIdRef.current = requestAnimationFrame(raf);
     };
 
     // Start the animation loop
-    rafId = requestAnimationFrame(raf);
+    rafIdRef.current = requestAnimationFrame(raf);
+
+    // Pause RAF when tab is hidden to save work
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        lenis.stop();
+        if (rafIdRef.current) {
+          cancelAnimationFrame(rafIdRef.current);
+          rafIdRef.current = null;
+        }
+      } else {
+        lenis.start();
+        if (!rafIdRef.current) {
+          rafIdRef.current = requestAnimationFrame(raf);
+        }
+      }
+    };
 
     // Handle anchor links smoothly
     const handleAnchorClick = (e) => {
@@ -49,6 +91,7 @@ export const useSmoothScroll = () => {
 
     // Add click listener for anchor links
     document.addEventListener('click', handleAnchorClick);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     // Handle initial hash in URL (e.g., page load with #section)
     const handleInitialHash = () => {
@@ -76,14 +119,18 @@ export const useSmoothScroll = () => {
 
     // Cleanup
     return () => {
-      if (rafId) {
-        cancelAnimationFrame(rafId);
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
       }
       lenis.destroy();
+      lenisRef.current = null;
+      rafIdRef.current = null;
       document.removeEventListener('click', handleAnchorClick);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('hashchange', handleInitialHash);
       ScrollTrigger.refresh();
     };
   }, []);
-};
 
+  return lenisRef;
+};

@@ -2,7 +2,6 @@ import React, { useMemo } from "react";
 import GlassSurface from "./GlassSurface.jsx";
 import LogoLoop from "./logo-loop.tsx";
 import { useTranslation } from "react-i18next";
-import OptimizedImage from "./OptimizedImage.jsx";
 
 const basePartners = [
   {
@@ -51,14 +50,10 @@ const Partners = () => {
             height={130}
             width={130}
             >
-              <OptimizedImage
+              <img
                 src={partner.src}
                 alt={partner.name}
-                className="h-[100px] w-[100px] flex items-center justify-center"
-                imgClassName="h-[100px] w-[100px] object-contain"
-                loading="lazy"
-                decoding="async"
-                sizes="130px"
+                className="h-[100px] w-[100px] object-contain"
               />
             </GlassSurface>
           ),

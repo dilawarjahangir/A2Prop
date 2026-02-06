@@ -90,17 +90,39 @@ const Footer = () => {
 
           {/* Social icons */}
           <div className="flex items-center gap-[36px]">
-            {/* replace src with your icons */}
-            <img
-              src="/assets/icons/Footer/linkedin.svg"
-              alt="LinkedIn"
-              className="h-5 w-5"
-            />
-            <img
-              src="/assets/icons/Footer/facebook.svg"
-              alt="Facebook"
-              className="h-5 w-5"
-            />
+            <a
+              href="https://www.linkedin.com/company/a2properties"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="/assets/icons/Footer/linkedin.svg"
+                alt="LinkedIn"
+                className="h-5 w-5"
+              />
+            </a>
+            <a
+              href="https://www.facebook.com/a2propeties.ae"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="/assets/icons/Footer/facebook.svg"
+                alt="Facebook"
+                className="h-5 w-5"
+              />
+            </a>
+            <a
+              href="https://www.tiktok.com/@a2properties.ae"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="/assets/icons/Footer/tiktok.svg"
+                alt="TikTok"
+                className="h-5 w-5"
+              />
+            </a>
             <img
               src="/assets/icons/Footer/youtube.svg"
               alt="YouTube"
@@ -109,11 +131,6 @@ const Footer = () => {
             <img
               src="/assets/icons/Footer/instagram.svg"
               alt="Instagram"
-              className="h-5 w-5"
-            />
-            <img
-              src="/assets/icons/Footer/discord.svg"
-              alt="Discord"
               className="h-5 w-5"
             />
           </div>
@@ -299,10 +316,6 @@ const Footer = () => {
               <p className="font-semibold text-white/70">
                 {t("sections.disclaimer_related_heading")}
               </p>
-              <ul className="list-disc space-y-1 pl-5">
-                <li>{t("sections.disclaimer_related_1")}</li>
-                <li>{t("sections.disclaimer_related_2")}</li>
-              </ul>
             </div>
           </div>
 

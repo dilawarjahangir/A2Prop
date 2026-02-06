@@ -7,12 +7,19 @@ import PageLoader from './components/PageLoader.jsx';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 import LocaleRoot from './components/system/LocaleRoot.jsx';
 
-const ScrollToTop = () => {
-  const { pathname } = useLocation();
+const ScrollToTop = ({ lenisRef }) => {
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-  }, [pathname]);
+    if (hash) return;
+
+    const lenis = lenisRef?.current;
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    }
+  }, [hash, lenisRef, pathname]);
 
   return null;
 };
@@ -25,9 +32,7 @@ const generateRoutes = (prefix = '', routeGroup = {}) =>
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-
-  // Initialize smooth scrolling
-  // useSmoothScroll();
+  const lenisRef = useSmoothScroll();
 
   const handleLoaderComplete = () => {
     setIsLoading(false);
@@ -38,7 +43,7 @@ function App() {
       <div className="">
         {isLoading && <PageLoader onComplete={handleLoaderComplete} />}
         <Router>
-          <ScrollToTop />
+          <ScrollToTop lenisRef={lenisRef} />
           <Routes>
             {routes.map(({ prefix, routes }) => generateRoutes(prefix, routes))}
             <Route path="*" element={<NotFoundPage />} />

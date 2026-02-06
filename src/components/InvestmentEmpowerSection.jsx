@@ -38,7 +38,7 @@ const InvestmentEmpowerSection = () => {
         >
           {/* Bottom layers */}
           <motion.img
-            src="/assets/icons/AnimationParts/group-99.svg"
+            src="/assets/icons/AnimationParts/Group%2099.svg"
             alt="A2 Properties base layers"
             className="absolute inset-0 h-full w-full object-contain opacity-80"
             initial={{ y: 6 }}
@@ -46,7 +46,7 @@ const InvestmentEmpowerSection = () => {
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.img
-            src="/assets/icons/AnimationParts/frame-3467.svg"
+            src="/assets/icons/AnimationParts/Frame%203467.svg"
             alt="A2 Properties middle layer"
             className="absolute inset-0 h-full w-full object-contain"
             initial={{ y: 2 }}
@@ -56,7 +56,7 @@ const InvestmentEmpowerSection = () => {
 
           {/* Top logo tile */}
           <motion.img
-            src="/assets/icons/AnimationParts/frame-98.svg"
+            src="/assets/icons/AnimationParts/Frame%2098.svg"
             alt="A2 Properties logo stack"
             className="absolute inset-0 h-full w-full object-contain drop-shadow-[0_25px_60px_rgba(0,0,0,0.7)]"
             initial={{ y: -2 }}

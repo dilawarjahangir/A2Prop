@@ -3,6 +3,18 @@ html {
   /* scroll-behavior: smooth; is disabled to let Lenis take control */
 }
 
+html.lenis {
+  height: auto;
+}
+
+html.lenis body {
+  overflow: hidden;
+}
+
+html.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
 html[dir="rtl"] body {
   direction: rtl;
 }
