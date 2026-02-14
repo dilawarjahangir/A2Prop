@@ -1,8 +1,69 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { submitGeneralLead } from "../api/leads.js";
 
 const Footer = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    leadType: "BUY",
+    message: "",
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  const onFieldChange = (event) => {
+    const { name, value } = event.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    setSubmitSuccess(false);
+    setSubmitError("");
+
+    const name = form.name.trim();
+    const email = form.email.trim();
+    const phone = form.phone.trim();
+    const message = form.message.trim();
+
+    if (!name || !email || !phone) {
+      setSubmitError("Please fill in name, email and phone.");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      await submitGeneralLead({
+        name,
+        email,
+        phone,
+        leadType: form.leadType,
+        message: message || undefined,
+        source: "footer_contact_form",
+        language: i18n?.language || "en",
+        extraData: {
+          page: "footer",
+        },
+      });
+
+      setSubmitSuccess(true);
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        leadType: "BUY",
+        message: "",
+      });
+    } catch (error) {
+      setSubmitError(error?.message || "Failed to submit lead. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
   const linkCols = [
     {
       title: "Company",
@@ -26,21 +87,6 @@ const Footer = () => {
         { label: "Term & Conditions", href: "/terms-and-conditions" },
         { label: "Privacy policy", href: "/privacy-policy" },
       ],
-    },
-  ];
-
-  const isoItems = [
-    {
-      code: "ISO 27001:2022",
-      desc: "Information Security Management System - ISMS",
-    },
-    {
-      code: "ISO 22301:2019",
-      desc: "Business Continuity Management Systems - BCMS",
-    },
-    {
-      code: "ISO 9001:2015",
-      desc: "Quality Management System - QMS",
     },
   ];
 
@@ -207,7 +253,7 @@ const Footer = () => {
           </div>
 
           {/* Right: form */}
-          <form className="space-y-6 max-w-md">
+          <form className="space-y-6 max-w-md" onSubmit={onSubmit}>
             <h3 className="text-xl font-semibold text-white">
               {t("sections.contact_heading")}
             </h3>
@@ -218,6 +264,9 @@ const Footer = () => {
               </label>
               <input
                 type="text"
+                name="name"
+                value={form.name}
+                onChange={onFieldChange}
                 placeholder={t("sections.contact_form_name_placeholder")}
                 className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white placeholder:text-white/30 focus:border-white/60 focus:outline-none"
               />
@@ -229,6 +278,9 @@ const Footer = () => {
               </label>
               <input
                 type="email"
+                name="email"
+                value={form.email}
+                onChange={onFieldChange}
                 placeholder={t("sections.contact_form_email_placeholder")}
                 className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white placeholder:text-white/30 focus:border-white/60 focus:outline-none"
               />
@@ -240,16 +292,56 @@ const Footer = () => {
               </label>
               <input
                 type="tel"
+                name="phone"
+                value={form.phone}
+                onChange={onFieldChange}
                 placeholder={t("sections.contact_form_phone_placeholder")}
                 className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white placeholder:text-white/30 focus:border-white/60 focus:outline-none"
               />
             </div>
 
+            <div className="space-y-1">
+              <label className="text-xs text-white/50">Lead type</label>
+              <select
+                name="leadType"
+                value={form.leadType}
+                onChange={onFieldChange}
+                className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white focus:border-white/60 focus:outline-none"
+              >
+                <option value="BUY" className="bg-[#181818] text-white">
+                  Buy
+                </option>
+                <option value="RENT" className="bg-[#181818] text-white">
+                  Rent
+                </option>
+              </select>
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs text-white/50">Message (optional)</label>
+              <textarea
+                name="message"
+                value={form.message}
+                onChange={onFieldChange}
+                rows={3}
+                placeholder="Tell us what you're looking for"
+                className="w-full rounded-xl border border-white/20 bg-transparent px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-white/60 focus:outline-none"
+              />
+            </div>
+
+            {submitError ? (
+              <p className="text-xs text-red-300">{submitError}</p>
+            ) : null}
+            {submitSuccess ? (
+              <p className="text-xs text-[#7DF5CA]">Lead submitted successfully. We will contact you soon.</p>
+            ) : null}
+
             <button
               type="submit"
+              disabled={submitting}
               className="inline-flex h-9 items-center justify-center rounded-full bg-gradient-to-r from-white/90 to-white/70 px-10 text-sm font-medium text-black shadow"
             >
-              {t("sections.contact_form_send")}
+              {submitting ? "Sending..." : t("sections.contact_form_send")}
             </button>
           </form>
         </div>

@@ -3,6 +3,7 @@ import GuestLayout from "../Layout/GuestLayout.jsx";
 import Home from "../pages/guest/Home/Home.jsx";
 import BlogDetail from "../pages/guest/Blog/BlogDetail.jsx";
 import BlogListings from "../pages/guest/Blog/BlogListings.jsx";
+import Contact from "../pages/guest/Contact/Contact.jsx";
 import PropertyDetail from "../pages/guest/Property/PropertyDetail.jsx";
 import PropertyListings from "../pages/guest/Property/PropertyListings.jsx";
 
@@ -18,6 +19,7 @@ const guest_routes = {
   about: withGuestLayout(About),
   "/blog": withGuestLayout(BlogListings),
   "/blog/:slug": withGuestLayout(BlogDetail),
+  "/contact-us": withGuestLayout(Contact),
   "/properties": withGuestLayout(PropertyListings),
   "/properties/:slug": withGuestLayout(PropertyDetail),
   "/property/:slug": withGuestLayout(PropertyDetail),

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getPropertyDetail, getListings } from "../../../api/listings.js";
+import { submitListingLead } from "../../../api/leads.js";
 import { formatCurrency } from "../../../api/utils.js";
 
 // Normalize Pixxi CDN host to pixxicrm.ae/api for images
@@ -90,7 +91,7 @@ const ListingCard = ({ item, t }) => (
 
 const PropertyDetail = () => {
   const { slug } = useParams();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const tx = (key, fallback) => {
     const val = t(key);
@@ -102,6 +103,15 @@ const PropertyDetail = () => {
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [leadForm, setLeadForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const [leadSubmitting, setLeadSubmitting] = useState(false);
+  const [leadError, setLeadError] = useState("");
+  const [leadSuccess, setLeadSuccess] = useState(false);
 
   // gallery slider
   const [activeIndex, setActiveIndex] = useState(0);
@@ -244,6 +254,52 @@ const PropertyDetail = () => {
   const locationText = useMemo(() => {
     return property?.location || [property?.community, property?.city].filter(Boolean).join(", ");
   }, [property]);
+
+  const onLeadFieldChange = (event) => {
+    const { name, value } = event.target;
+    setLeadForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const onSubmitLead = async (event) => {
+    event.preventDefault();
+    setLeadSuccess(false);
+    setLeadError("");
+
+    const name = leadForm.name.trim();
+    const email = leadForm.email.trim();
+    const phone = leadForm.phone.trim();
+    const message = leadForm.message.trim();
+
+    if (!name || !email || !phone) {
+      setLeadError("Please fill in name, email and phone.");
+      return;
+    }
+
+    setLeadSubmitting(true);
+    try {
+      await submitListingLead({
+        name,
+        email,
+        phone,
+        slug,
+        message: message || undefined,
+        source: "property_detail_inquiry",
+        language: i18n?.language || "en",
+        extraData: {
+          page: "property_detail",
+          propertySlug: property?.slug,
+          propertyTitle: property?.title,
+          propertyReference: property?.reference || raw?.reference,
+        },
+      });
+      setLeadSuccess(true);
+      setLeadForm({ name: "", email: "", phone: "", message: "" });
+    } catch (submitError) {
+      setLeadError(submitError?.message || "Failed to submit inquiry. Please try again.");
+    } finally {
+      setLeadSubmitting(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -576,6 +632,59 @@ const PropertyDetail = () => {
               </a>
             )}
           </div>
+
+          <form onSubmit={onSubmitLead} className="space-y-3 border-t border-white/10 pt-5">
+            <h4 className="text-lg font-semibold text-white">
+              {tx("sections.property_detail_enquiry_heading", "Send an enquiry")}
+            </h4>
+            <input
+              type="text"
+              name="name"
+              value={leadForm.name}
+              onChange={onLeadFieldChange}
+              placeholder={tx("sections.contact_form_name_placeholder", "Your name")}
+              className="w-full rounded-xl border border-white/20 bg-transparent px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-white/60 focus:outline-none"
+            />
+            <input
+              type="email"
+              name="email"
+              value={leadForm.email}
+              onChange={onLeadFieldChange}
+              placeholder={tx("sections.contact_form_email_placeholder", "Email")}
+              className="w-full rounded-xl border border-white/20 bg-transparent px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-white/60 focus:outline-none"
+            />
+            <input
+              type="tel"
+              name="phone"
+              value={leadForm.phone}
+              onChange={onLeadFieldChange}
+              placeholder={tx("sections.contact_form_phone_placeholder", "Phone")}
+              className="w-full rounded-xl border border-white/20 bg-transparent px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-white/60 focus:outline-none"
+            />
+            <textarea
+              name="message"
+              value={leadForm.message}
+              onChange={onLeadFieldChange}
+              rows={3}
+              placeholder={tx("sections.property_detail_enquiry_message", "Tell us what you need")}
+              className="w-full rounded-xl border border-white/20 bg-transparent px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-white/60 focus:outline-none"
+            />
+            {leadError ? <p className="text-xs text-red-300">{leadError}</p> : null}
+            {leadSuccess ? (
+              <p className="text-xs text-[#7DF5CA]">
+                {tx("sections.property_detail_enquiry_success", "Enquiry submitted successfully.")}
+              </p>
+            ) : null}
+            <button
+              type="submit"
+              disabled={leadSubmitting}
+              className="w-full rounded-full bg-gradient-to-r from-[#7DF5CA] to-white text-black font-semibold py-2"
+            >
+              {leadSubmitting
+                ? tx("sections.property_detail_enquiry_sending", "Sending...")
+                : tx("sections.property_detail_enquiry_submit", "Submit enquiry")}
+            </button>
+          </form>
         </aside>
       </div>
     </div>

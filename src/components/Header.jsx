@@ -122,8 +122,6 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", onDocMouseDown);
   }, [isContactOpen]);
 
-  const handleNavClick = () => setIsMenuOpen(false);
-
   const handleToggleLocale = async () => {
     const next = currentLocale === "en" ? "ar" : "en";
     await setLocale(next);
@@ -197,7 +195,7 @@ const Header = () => {
               }}
             >
               <Link
-                to="#contact"
+                to="/contact-us"
                 className={[
                   "group relative px-5 py-2.5 rounded-full text-sm font-semibold",
                   "text-white border border-white/35 bg-white/5",
