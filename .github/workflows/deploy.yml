@@ -18,11 +18,16 @@ jobs:
           node-version: "20"
           cache: npm
 
-      - name: Install dependencies
+      - name: Install
         run: npm ci
 
       - name: Build
         run: npm run build
+
+      - name: Write version file
+        run: |
+          echo "commit=${GITHUB_SHA}" > dist/version.txt
+          echo "deployed_at=$(date -u)" >> dist/version.txt
 
       - name: Upload dist to cPanel via SCP
         uses: appleboy/scp-action@v0.1.7
