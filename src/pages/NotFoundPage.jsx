@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { Link } from "react-router-dom";
 import GradientButton from "../components/GradientButton.jsx";
 
@@ -18,7 +18,7 @@ const NotFoundPage = () => {
         </div>
 
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight">
-          We couldn’t find the page you were looking for.
+          We couldnâ€™t find the page you were looking for.
         </h1>
 
         <p className="text-white/70 text-base sm:text-lg max-w-2xl mx-auto">
@@ -47,14 +47,19 @@ const NotFoundPage = () => {
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
             <p className="text-xs uppercase tracking-[0.12em] text-white/60 mb-1">Popular</p>
             <Link to="/properties" className="text-sm font-semibold hover:text-white transition">
-              View all listings →
+              View all listings â†’
             </Link>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
             <p className="text-xs uppercase tracking-[0.12em] text-white/60 mb-1">Featured</p>
-            <Link to="/home#ai-map" className="text-sm font-semibold hover:text-white transition">
-              Explore AI map →
-            </Link>
+            <a
+              href="https://a2-properties.map.estate/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm font-semibold hover:text-white transition"
+            >
+              Explore AI map &rarr;
+            </a>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
             <p className="text-xs uppercase tracking-[0.12em] text-white/60 mb-1">Need help?</p>
@@ -62,7 +67,7 @@ const NotFoundPage = () => {
               href="mailto:info@a2properties.ae"
               className="text-sm font-semibold hover:text-white transition"
             >
-              Contact our team →
+              Contact our team â†’
             </a>
           </div>
         </div>
@@ -72,3 +77,5 @@ const NotFoundPage = () => {
 };
 
 export default NotFoundPage;
+
+

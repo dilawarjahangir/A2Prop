@@ -7,7 +7,11 @@ import { getLocale, setLocale } from "../hooks/useLocale";
 const navItems = [
   { key: "home", href: "/" },
   { key: "offplan", href: "/properties" },
-  { key: "ai_map", href: "/#ai-map" },
+  {
+    key: "ai_map",
+    href: "https://a2-properties.map.estate/",
+    external: true,
+  },
   { key: "about", href: "/about" },
 ];
 
@@ -157,15 +161,25 @@ const Header = () => {
           </div>
 
           <nav className="hidden md:flex items-center gap-10 text-sm text-gray-100">
-            {navItems.map((item) => (
-              <Link
-                key={item.key}
-                to={item.href}
-                className="relative transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 rounded-md"
-              >
-                {t(`nav.${item.key}`)}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const className =
+                "relative transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 rounded-md";
+              return item.external ? (
+                <a
+                  key={item.key}
+                  href={item.href}
+                  className={className}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {t(`nav.${item.key}`)}
+                </a>
+              ) : (
+                <Link key={item.key} to={item.href} className={className}>
+                  {t(`nav.${item.key}`)}
+                </Link>
+              );
+            })}
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
@@ -419,21 +433,42 @@ const Header = () => {
           >
             <div className="flex flex-col p-6">
               <nav className="space-y-2 mb-6">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.key}
-                    to={item.href}
-                    onClick={() => setIsMenuOpen(false)}
-                    className="group block px-4 py-3 text-white text-base font-medium rounded-xl transition-all hover:bg-white/10 active:bg-white/20 hover:-translate-y-0.5 active:translate-y-0"
-                  >
+                {navItems.map((item) => {
+                  const content = (
                     <span className="flex items-center justify-between">
                       <span>{t(`nav.${item.key}`)}</span>
                       <span className="text-sm font-bold opacity-70 transition-all group-hover:opacity-100 group-hover:translate-x-1">
                         →
                       </span>
                     </span>
-                  </Link>
-                ))}
+                  );
+
+                  const className =
+                    "group block px-4 py-3 text-white text-base font-medium rounded-xl transition-all hover:bg-white/10 active:bg-white/20 hover:-translate-y-0.5 active:translate-y-0";
+                  const onClick = () => setIsMenuOpen(false);
+
+                  return item.external ? (
+                    <a
+                      key={item.key}
+                      href={item.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={onClick}
+                      className={className}
+                    >
+                      {content}
+                    </a>
+                  ) : (
+                    <Link
+                      key={item.key}
+                      to={item.href}
+                      onClick={onClick}
+                      className={className}
+                    >
+                      {content}
+                    </Link>
+                  );
+                })}
               </nav>
 
               <button

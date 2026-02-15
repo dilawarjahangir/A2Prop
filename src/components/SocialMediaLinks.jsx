@@ -7,7 +7,7 @@ const socials = [
   {
     name: "TikTok",
     icon: "/assets/icons/Footer/tiktok.svg",
-    href: "#instagram",
+    href: "https://www.tiktok.com/@a2properties.ae",
   },
   {
     name: "YouTube",
@@ -42,6 +42,8 @@ const SocialMediaLinks = () => {
           <GlassSurface key={item.name} width={192} height={64} className="p-0">
             <a
               href={item.href}
+              target="_blank"
+              rel="noreferrer"
               className="flex hover:bg-white/5 p-0 items-stretch justify-center w-full h-full text-white rounded-[inherit]"
               aria-label={t("sections.social_follow_on", { name: item.name })}
             >
