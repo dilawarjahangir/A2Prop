@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import GradientButton from "./GradientButton.jsx";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getLocale, setLocale } from "../hooks/useLocale";
 import { useAiMapLock } from "../hooks/useAiMapLock.jsx";
@@ -44,6 +44,7 @@ const NavLockBadge = ({ locked }) => (
 const Header = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const { isUnlocked: isAiMapUnlocked, openUnlockModal } = useAiMapLock();
   const currentLocale = getLocale();
 
@@ -163,8 +164,27 @@ const Header = () => {
   const openContact = () => setIsContactOpen(true);
   const closeContact = () => setIsContactOpen(false);
 
+  const scrollToTop = () => {
+    const lenis = typeof window !== "undefined" ? window.__lenis : null;
+    if (lenis) {
+      lenis.scrollTo(0, { duration: 1 });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   const handleNavItemClick = (event, item, after = () => {}) => {
     const isAiMap = item.key === "ai_map";
+    const samePath = location.pathname === item.href;
+
+    // If clicking current route, just scroll to top
+    if (!isAiMap && samePath) {
+      event.preventDefault();
+      after();
+      scrollToTop();
+      return;
+    }
+
     if (isAiMap && !isAiMapUnlocked) {
       event.preventDefault();
       openUnlockModal(() => {

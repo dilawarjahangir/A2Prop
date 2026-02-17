@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import ScrollProgress from "../components/ScrollProgress.jsx";
+import ScrollTopFab from "../components/ScrollTopFab.jsx";
 
 const GuestLayout = ({ children }) => {
   return (
@@ -11,6 +12,7 @@ const GuestLayout = ({ children }) => {
       <main className="flex-1 overflow-x-hidden max-w-6xl w-full mx-auto px-6 ">
         {children}
       </main>
+      <ScrollTopFab />
       <Footer />
     </div>
   );

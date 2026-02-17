@@ -43,6 +43,10 @@ export const useSmoothScroll = () => {
     });
 
     lenisRef.current = lenis;
+    // expose globally for scroll-to-top helpers
+    if (typeof window !== 'undefined') {
+      window.__lenis = lenis;
+    }
 
     // Integrate Lenis with GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
@@ -123,6 +127,9 @@ export const useSmoothScroll = () => {
         cancelAnimationFrame(rafIdRef.current);
       }
       lenis.destroy();
+      if (typeof window !== 'undefined' && window.__lenis === lenis) {
+        delete window.__lenis;
+      }
       lenisRef.current = null;
       rafIdRef.current = null;
       document.removeEventListener('click', handleAnchorClick);
