@@ -189,7 +189,7 @@ Vite dev server is configured in `vite.config.js` with custom `allowedHosts` for
 
 ### Components
 
-Most of the application’s behavior lives in `src/components/`. Highlights:
+Most of the application's behavior lives in `src/components/`. Highlights:
 
 - **Layout & shell**
   - `Header.jsx` – top navigation bar:
@@ -244,7 +244,7 @@ Most of the application’s behavior lives in `src/components/`. Highlights:
 
 - `src/hooks/useSmoothScroll.js`
   - Sets up `Lenis` for smooth scrolling.
-  - Wires Lenis into GSAP’s `ScrollTrigger.update` so scroll‑linked animations stay in sync.
+  - Wires Lenis into GSAP's `ScrollTrigger.update` so scroll‑linked animations stay in sync.
   - Adds document‑level click handler to intercept anchor links (`href="#section"`) and route them through Lenis with an offset (for fixed header).
   - Handles initial URL hashes and `hashchange` events to ensure smooth scrolling even when navigating via browser controls.
   - Cleans up animation frame loop and event listeners on unmount.
@@ -290,7 +290,7 @@ Most of the application’s behavior lives in `src/components/`. Highlights:
   - Helpers like `parseBlogDate`, `formatStat`, and `getHighlights` keep transformation logic centralized.
 
 - **Advanced motion & scroll orchestration**
-  - Lenis‑driven smooth scrolling is integrated with GSAP’s `ScrollTrigger`, keeping animation and scroll physics in sync.
+  - Lenis‑driven smooth scrolling is integrated with GSAP's `ScrollTrigger`, keeping animation and scroll physics in sync.
   - Scroll progress is visualised via a fixed right‑edge bar (`ScrollProgress`) and can be reused on any layout.
   - Hero and orb backgrounds use Framer Motion and WebGL shaders to react to scroll and pointer movement.
 

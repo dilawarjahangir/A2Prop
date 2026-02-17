@@ -15,7 +15,7 @@ import ReactCountryFlag from "react-country-flag";
  * - Use touchRatio/threshold tweaks for lighter interaction.
  * - Use fewer re-inits: wire nav once via onBeforeInit + a single effect.
  * - Use observer flags carefully (avoid observeParents unless needed).
- * - Add memoized slide component so React doesn’t re-render all slides.
+ * - Add memoized slide component so React doesn't re-render all slides.
  */
 
 const markets = [

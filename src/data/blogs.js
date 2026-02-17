@@ -46,7 +46,7 @@ export const blogs = [
               },
               {
                 title: "Health insurance expectations",
-                text: "Many workflows depend on medical coverage. Align your plan (or employer’s plan) with your family needs and network access.",
+                text: "Many workflows depend on medical coverage. Align your plan (or employer's plan) with your family needs and network access.",
               },
               {
                 title: "Tenancy contract readiness",
@@ -54,11 +54,11 @@ export const blogs = [
               },
               {
                 title: "Driving licence conversion plan",
-                text: "If you can convert your licence, it’s faster than learning-from-scratch. If not, plan time for lessons, tests, and car rental options.",
+                text: "If you can convert your licence, it's faster than learning-from-scratch. If not, plan time for lessons, tests, and car rental options.",
               },
               {
                 title: "Bank account setup",
-                text: "Some banks require residency status or salary transfer. Decide early whether you’ll use a digital bank, local bank, or employer-supported setup.",
+                text: "Some banks require residency status or salary transfer. Decide early whether you'll use a digital bank, local bank, or employer-supported setup.",
               },
               {
                 title: "School admissions calendar",
@@ -66,7 +66,7 @@ export const blogs = [
               },
               {
                 title: "Transport strategy",
-                text: "Consider commute time across Dubai’s traffic patterns. Your mobility choice (metro, car, hybrid) should shape your community shortlist.",
+                text: "Consider commute time across Dubai's traffic patterns. Your mobility choice (metro, car, hybrid) should shape your community shortlist.",
               },
               {
                 title: "Utilities and internet onboarding",
@@ -78,7 +78,7 @@ export const blogs = [
               },
               {
                 title: "Pets and relocation logistics",
-                text: "If you’re relocating with pets, check airline rules, vaccination timelines, and community pet policies before finalizing housing.",
+                text: "If you're relocating with pets, check airline rules, vaccination timelines, and community pet policies before finalizing housing.",
               },
               {
                 title: "Document attestation",
@@ -101,7 +101,7 @@ export const blogs = [
           {
             type: "callout",
             title: "Need help choosing the right community?",
-            text: "Share your budget, family size, commute needs, and preferred lifestyle—we’ll suggest a shortlist of communities that match.",
+            text: "Share your budget, family size, commute needs, and preferred lifestyle—we'll suggest a shortlist of communities that match.",
             ctaLabel: "Explore Properties",
             ctaTo: "/properties",
           },
@@ -133,7 +133,7 @@ export const blogs = [
             items: [
               "Keep a buffer for first-month setup: deposits, furniture, and initial fees.",
               "Choose housing based on commute + school, not only rent.",
-              "If you’re investing, include all-in ownership costs (service charges, fees, financing).",
+              "If you're investing, include all-in ownership costs (service charges, fees, financing).",
             ],
           },
         ],
@@ -156,7 +156,7 @@ export const blogs = [
     ],
     faqs: [
       {
-        q: "What’s the biggest mistake people make when moving to Dubai?",
+        q: "What's the biggest mistake people make when moving to Dubai?",
         a: "Choosing a home before aligning commute and school requirements. Community selection impacts daily quality of life and recurring costs.",
       },
       {
@@ -165,7 +165,7 @@ export const blogs = [
       },
       {
         q: "How early should I start planning?",
-        a: "Ideally 6–10 weeks ahead if you’re relocating with family, schooling needs, or document attestation requirements.",
+        a: "Ideally 6–10 weeks ahead if you're relocating with family, schooling needs, or document attestation requirements.",
       },
     ],
   },
@@ -183,7 +183,7 @@ export const blogs = [
     },
     image: "/assets/images/SignatureShowCase/image2.jpg",
     excerpt:
-      "In 2026, experienced investors are prioritizing quality, liquidity, and developer strength—while keeping optionality for future exits. Here are the patterns we’re seeing.",
+      "In 2026, experienced investors are prioritizing quality, liquidity, and developer strength—while keeping optionality for future exits. Here are the patterns we're seeing.",
     sections: [
       {
         id: "why-2026",
@@ -205,11 +205,11 @@ export const blogs = [
       },
       {
         id: "landscape",
-        title: "Understanding Dubai’s Diverse Property Landscape in 2026",
+        title: "Understanding Dubai's Diverse Property Landscape in 2026",
         blocks: [
           {
             type: "paragraph",
-            text: "Dubai is not one market—it’s many micro-markets. Your strategy should match your timeline and risk tolerance: cashflow first, appreciation first, or a balanced approach.",
+            text: "Dubai is not one market—it's many micro-markets. Your strategy should match your timeline and risk tolerance: cashflow first, appreciation first, or a balanced approach.",
           },
           {
             type: "table",
@@ -261,7 +261,7 @@ export const blogs = [
           {
             type: "callout",
             title: "Want a curated investor shortlist?",
-            text: "Tell us your budget and target yield and we’ll share options that fit your strategy—including comparable resale data where available.",
+            text: "Tell us your budget and target yield and we'll share options that fit your strategy—including comparable resale data where available.",
             ctaLabel: "Explore Properties",
             ctaTo: "/properties",
           },
@@ -273,7 +273,7 @@ export const blogs = [
         blocks: [
           {
             type: "paragraph",
-            text: "Smart investing is less about predicting the next headline and more about buying quality with discipline. If the entry price is sane and the asset is liquid, you’re already ahead.",
+            text: "Smart investing is less about predicting the next headline and more about buying quality with discipline. If the entry price is sane and the asset is liquid, you're already ahead.",
           },
         ],
       },
@@ -303,7 +303,7 @@ export const blogs = [
     },
     image: "/assets/images/SignatureShowCase/image3.jpg",
     excerpt:
-      "As Dubai expands parks and cycling infrastructure, walkability and lifestyle nodes become even more important for homeowners and investors. Here’s what to watch.",
+      "As Dubai expands parks and cycling infrastructure, walkability and lifestyle nodes become even more important for homeowners and investors. Here's what to watch.",
     sections: [
       {
         id: "about",
@@ -359,14 +359,14 @@ export const blogs = [
               },
               {
                 title: "Compare supply pipelines",
-                text: "Even great infrastructure can be offset by oversupply. Check what’s coming to market in the same catchment area.",
+                text: "Even great infrastructure can be offset by oversupply. Check what's coming to market in the same catchment area.",
               },
             ],
           },
           {
             type: "callout",
             title: "Want communities aligned to a lifestyle-first plan?",
-            text: "We’ll shortlist communities with strong parks, walkability nodes, and family-friendly amenities.",
+            text: "We'll shortlist communities with strong parks, walkability nodes, and family-friendly amenities.",
             ctaLabel: "Explore Properties",
             ctaTo: "/properties",
           },
@@ -388,7 +388,7 @@ export const blogs = [
     slug: "dubai-real-estate-market-report-2025",
     tag: "Market Report",
     title: "Dubai Real Estate Market Report 2025",
-    subtitle: "Trends, pricing signals, and opportunities across Dubai’s prime communities.",
+    subtitle: "Trends, pricing signals, and opportunities across Dubai's prime communities.",
     date: "December 05, 2025",
     readingTime: "8 min read",
     author: {
@@ -397,7 +397,7 @@ export const blogs = [
     },
     image: "/assets/images/blogs/17debf49c38372a93d4af3cdb5c38d95a1b1ca66.jpg",
     excerpt:
-      "Dubai’s real estate market continues to evolve with resilient end-user demand, strong off-plan absorption, and a more selective luxury segment. Here’s a practical 2025 snapshot with key highlights and takeaways.",
+      "Dubai's real estate market continues to evolve with resilient end-user demand, strong off-plan absorption, and a more selective luxury segment. Here's a practical 2025 snapshot with key highlights and takeaways.",
     sections: [
       {
         id: "overview",
@@ -409,7 +409,7 @@ export const blogs = [
           },
           {
             type: "paragraph",
-            text: "This report summarizes the core signals we’re seeing across the resale (secondary) and off-plan markets, plus a short checklist for buyers and investors planning their next move.",
+            text: "This report summarizes the core signals we're seeing across the resale (secondary) and off-plan markets, plus a short checklist for buyers and investors planning their next move.",
           },
         ],
       },
@@ -468,7 +468,7 @@ export const blogs = [
           {
             type: "callout",
             title: "Want a tailored shortlist?",
-            text: "Tell us your budget, preferred communities, and timeline—we’ll share a curated shortlist of projects that match your strategy.",
+            text: "Tell us your budget, preferred communities, and timeline—we'll share a curated shortlist of projects that match your strategy.",
             ctaLabel: "Explore Properties",
             ctaTo: "/properties",
           },
@@ -493,7 +493,7 @@ export const blogs = [
     faqs: [
       {
         q: "Is 2025 a good year to buy property in Dubai?",
-        a: "If you’re buying for lifestyle or a clear long-term plan, 2025 offers solid options—especially when you focus on quality, community fundamentals, and realistic pricing. For investors, project selection and exit strategy matter more than broad market headlines.",
+        a: "If you're buying for lifestyle or a clear long-term plan, 2025 offers solid options—especially when you focus on quality, community fundamentals, and realistic pricing. For investors, project selection and exit strategy matter more than broad market headlines.",
       },
       {
         q: "Is off-plan still worth it?",
@@ -567,7 +567,7 @@ export const blogs = [
     },
     image: "/assets/images/blogs/a03acea6aab73ae9a8683156c2970824a71b065d.jpg",
     excerpt:
-      "Major retail announcements often signal broader infrastructure investment and demand uplift. Here’s how to think about catchment areas, price expectations, and timelines around Dubai Creek Harbour.",
+      "Major retail announcements often signal broader infrastructure investment and demand uplift. Here's how to think about catchment areas, price expectations, and timelines around Dubai Creek Harbour.",
     sections: [
       {
         id: "what-happened",
@@ -610,7 +610,7 @@ export const blogs = [
     },
     image: "/assets/images/blogs/f1da664e1ba21312ae58f7a3f203675b7bc96195.jpg",
     excerpt:
-      "Transport and logistics investments often create new growth corridors. Here’s how to evaluate mobility announcements without overpaying for speculation—especially for mid-market and emerging communities.",
+      "Transport and logistics investments often create new growth corridors. Here's how to evaluate mobility announcements without overpaying for speculation—especially for mid-market and emerging communities.",
     sections: [
       {
         id: "why-it-matters",
@@ -618,12 +618,12 @@ export const blogs = [
         blocks: [
           {
             type: "paragraph",
-            text: "Improved connectivity changes buyer behavior over time. Areas that were previously considered ‘too far’ can reprice once commute times and access to job hubs improve.",
+            text: "Improved connectivity changes buyer behavior over time. Areas that were previously considered ‘too far' can reprice once commute times and access to job hubs improve.",
           },
           {
             type: "list",
             items: [
-              "Track timelines: infrastructure impact isn’t immediate.",
+              "Track timelines: infrastructure impact isn't immediate.",
               "Look for communities with multiple access routes.",
               "Prioritize fundamentals: schools, retail, parks, and service quality.",
             ],

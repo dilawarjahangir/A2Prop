@@ -1844,7 +1844,7 @@ const PropertyListings = () => {
           "sections.property_listings_tab_amenities",
           "Choose an amenity",
         )}
-        subtitle="Pick an amenity — we’ll apply it as a keyword filter."
+        subtitle="Pick an amenity — we'll apply it as a keyword filter."
         onClose={() => setPicker(null)}
         footer={
           <div className="flex flex-wrap items-center justify-between gap-3">

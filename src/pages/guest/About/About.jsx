@@ -27,7 +27,7 @@ const leadership = [
     name: "Hassan Al Jaziri",
     title: "Founder & CEO",
     blurb:
-      "Built A2 on a foundation of trust, service, and forward-looking investments that honor each client’s goals.",
+      "Built A2 on a foundation of trust, service, and forward-looking investments that honor each client's goals.",
   },
   {
     name: "Ayesha Rahman",
@@ -57,7 +57,7 @@ const About = () => {
               A trusted real estate partner grounded in Dubai, connected worldwide.
             </h1>
             <p className="text-white/75 text-base sm:text-lg leading-relaxed">
-              We help investors, homeowners, and developers navigate Dubai’s most dynamic neighborhoods. From off-plan
+              We help investors, homeowners, and developers navigate Dubai's most dynamic neighborhoods. From off-plan
               launches to premium resales, our team pairs data, design, and deep market knowledge to deliver clarity and
               confidence at every step.
             </p>

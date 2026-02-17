@@ -105,7 +105,7 @@ const InvestmentEmpowerSection = () => {
           0
         );
 
-        // Main motion (keyframes are cheaper than many chained fromTo’s)
+        // Main motion (keyframes are cheaper than many chained fromTo's)
         tl.to(
           top,
           {
@@ -189,7 +189,7 @@ const InvestmentEmpowerSection = () => {
           mainTL = createTimeline(0.35);
 
           // Disable tilt + pulsing glow (major win)
-          // Keep glows static; they’re still visible, just not animated.
+          // Keep glows static; they're still visible, just not animated.
           return () => {
             mainTL && mainTL.kill();
             mainTL = null;

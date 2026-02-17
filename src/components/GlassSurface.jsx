@@ -158,7 +158,7 @@ const GlassSurface = ({
       ? "0 10px 30px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.10)"
       : "0 14px 40px rgba(0,0,0,0.14), inset 0 1px 0 rgba(255,255,255,0.45)";
 
-    // If backdrop-filter exists, keep it (that’s the “glass” part).
+    // If backdrop-filter exists, keep it (that's the “glass” part).
     // Add an overlay filter on top content only (lighter than backdrop url(#filter)).
     return base;
   }, [liteStyles, isDarkMode]);

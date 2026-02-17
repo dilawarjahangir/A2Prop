@@ -47,7 +47,7 @@ const NotFoundPage = () => {
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
             <p className="text-xs uppercase tracking-[0.12em] text-white/60 mb-1">Popular</p>
             <Link to="/properties" className="text-sm font-semibold hover:text-white transition">
-              View all listings â†’
+              View all listings â†'
             </Link>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
@@ -67,7 +67,7 @@ const NotFoundPage = () => {
               href="mailto:info@a2properties.ae"
               className="text-sm font-semibold hover:text-white transition"
             >
-              Contact our team â†’
+              Contact our team â†'
             </a>
           </div>
         </div>

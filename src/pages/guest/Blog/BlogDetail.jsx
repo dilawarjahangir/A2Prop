@@ -281,7 +281,7 @@ const BlogDetail = () => {
         <div className="rounded-3xl border border-white/10 bg-white/5 p-8 space-y-4">
           <h1 className="text-2xl font-semibold">Article not found</h1>
           <p className="text-white/70">
-            The blog post you’re looking for doesn’t exist or has been moved.
+            The blog post you're looking for doesn't exist or has been moved.
           </p>
           <Link
             to="/blog"
