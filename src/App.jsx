@@ -6,6 +6,7 @@ import NotFoundPage from './pages/NotFoundPage.jsx';
 import PageLoader from './components/PageLoader.jsx';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 import LocaleRoot from './components/system/LocaleRoot.jsx';
+import { AiMapLockProvider } from './hooks/useAiMapLock.jsx';
 
 const ScrollToTop = ({ lenisRef }) => {
   const { pathname, hash } = useLocation();
@@ -40,16 +41,18 @@ function App() {
 
   return (
     <LocaleRoot>
-      <div className="">
-        {isLoading && <PageLoader onComplete={handleLoaderComplete} />}
-        <Router>
-          <ScrollToTop lenisRef={lenisRef} />
-          <Routes>
-            {routes.map(({ prefix, routes }) => generateRoutes(prefix, routes))}
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </Router>
-      </div>
+      <AiMapLockProvider>
+        <div className="">
+          {isLoading && <PageLoader onComplete={handleLoaderComplete} />}
+          <Router>
+            <ScrollToTop lenisRef={lenisRef} />
+            <Routes>
+              {routes.map(({ prefix, routes }) => generateRoutes(prefix, routes))}
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </Router>
+        </div>
+      </AiMapLockProvider>
     </LocaleRoot>
   );
 }

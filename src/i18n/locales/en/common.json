@@ -47,6 +47,40 @@
     },
     "map_intro": "Browse every Dubai project in real time. Pan, zoom, and click on listings to see pricing, availability, and project details without leaving the page.",
     "map_iframe_title": "Dubai projects interactive map",
+    "ai_map_page": {
+      "kicker": "Live Dubai intelligence",
+      "heading": "Explore Dubai projects with the AI Map",
+      "subheading": "See launches, prices, availability, and project details without leaving the site.",
+      "pill_realtime": "Live availability",
+      "pill_verified": "Verified developers",
+      "pill_shareable": "Share-ready links",
+      "features": {
+        "live": {
+          "title": "Live project overlays",
+          "body": "Clustered by community with color-coded status so hotspots stand out instantly."
+        },
+        "filters": {
+          "title": "Filters built for buyers",
+          "body": "Filter by price bands, handover dates, or developer type in seconds."
+        },
+        "workflows": {
+          "title": "Shortlist and handoff",
+          "body": "Open a project, copy a shareable link, or hand it to our advisors for next steps."
+        }
+      },
+      "steps_title": "How to use the map",
+      "steps": [
+        "Zoom into the area you care about and tap a cluster.",
+        "Open a project card to see pricing, unit mix, and the developer.",
+        "Copy the link or tap contact to speak with an advisor."
+      ],
+      "map_section_title": "Interactive AI map",
+      "map_section_subtitle": "Pan, zoom, and click to explore every Dubai project in real time.",
+      "cta_title": "Want a curated shortlist?",
+      "cta_body": "Share your budget and timeline. We will prepare 3-5 options from the map and send them to you.",
+      "cta_primary": "Talk to an advisor",
+      "cta_secondary": "Browse all properties"
+    },
     "partners_heading": "Trusted Partners",
     "partners_aria_label": "Partner logos scrolling to the right",
     "investment_heading_line1": "Empowering Your Investment Decisions in",
