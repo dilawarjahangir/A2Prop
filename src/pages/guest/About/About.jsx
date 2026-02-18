@@ -24,22 +24,16 @@ const pillars = [
 
 const leadership = [
   {
-    name: "Hassan Al Jaziri",
-    title: "Founder & CEO",
+    name: "Abdullah Al Hashimi",
+    title: "Chief Executive Officer",
     blurb:
-      "Built A2 on a foundation of trust, service, and forward-looking investments that honor each client's goals.",
+      "Steers A2 Properties with a focus on disciplined growth, transparent partnerships, and investor-first execution across Dubai’s prime districts.",
   },
   {
-    name: "Ayesha Rahman",
-    title: "Head of Advisory",
+    name: "Aya Motaz Nachar",
+    title: "Managing Director",
     blurb:
-      "Leads our advisory practice, aligning market data with bespoke strategies for high-value buyers and sellers.",
-  },
-  {
-    name: "Daniel Carter",
-    title: "Director of Marketing",
-    blurb:
-      "Shapes every launch narrative with immersive visuals, digital reach, and a focus on meaningful brand moments.",
+      "Oversees daily operations and client delivery, ensuring every transaction runs with precision, speed, and white-glove service.",
   },
 ];
 
@@ -126,39 +120,100 @@ const About = () => {
         </div>
       </section>
 
-      <section className="rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-8 space-y-6 text-white">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-white/60">Leadership</p>
-            <h3 className="text-2xl sm:text-3xl font-semibold">People behind the craft</h3>
-          </div>
-          <a
-            href="mailto:info@a2properties.ae"
-            className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10 transition"
-          >
-            Meet with us
-          </a>
-        </div>
+<section className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#0f1013] via-[#0b0c0f] to-black p-6 sm:p-10 space-y-8 text-white shadow-[0_30px_120px_rgba(0,0,0,0.45)]">
+  {/* soft ambient glow */}
+  <div className="pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-[#7DF5CA]/10 blur-3xl" />
+  <div className="pointer-events-none absolute -right-28 -top-28 h-80 w-80 rounded-full bg-white/5 blur-[120px]" />
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {leadership.map((leader) => (
-            <div
-              key={leader.name}
-              className="rounded-2xl border border-white/10 bg-black/30 p-5 space-y-2 shadow-[0_14px_50px_rgba(0,0,0,0.35)]"
-            >
-              <div className="h-14 w-14 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white font-semibold text-lg">
-                {leader.name
-                  .split(" ")
-                  .map((part) => part[0])
-                  .join("")}
+  <div className="relative flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+    <div className="space-y-2 max-w-2xl">
+      <p className="text-xs uppercase tracking-[0.22em] text-white/60">Leadership</p>
+      <h3 className="text-2xl sm:text-3xl font-semibold">People behind the craft</h3>
+      <p className="text-sm sm:text-base text-white/70 leading-relaxed">
+        Seasoned operators and advisors focused on precision execution, clear communication, and investor-first outcomes.
+      </p>
+    </div>
+
+    <div className="flex flex-wrap gap-3">
+      <a
+        href="mailto:info@a2properties.ae?subject=Leadership%20meeting%20request"
+        className="inline-flex items-center justify-center rounded-full bg-white text-black px-4 py-2 text-sm font-semibold shadow hover:bg-gray-200 transition"
+      >
+        Meet with us
+      </a>
+      <a
+        href="/contact"
+        className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10 transition"
+      >
+        Contact page
+      </a>
+    </div>
+  </div>
+
+  <div className="relative grid gap-4 sm:grid-cols-2">
+    {leadership.map((leader) => {
+      const initials = leader.name
+        .split(" ")
+        .map((part) => part[0])
+        .join("")
+        .slice(0, 3);
+
+      return (
+        <div
+          key={leader.name}
+          className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_16px_60px_rgba(0,0,0,0.45)] transition hover:-translate-y-1 hover:border-white/20 hover:bg-white/10"
+        >
+          {/* hover sheen */}
+          <div className="pointer-events-none absolute inset-0 opacity-0 transition group-hover:opacity-100">
+            <div className="absolute -left-10 top-0 h-40 w-40 rounded-full bg-[#7DF5CA]/10 blur-2xl" />
+            <div className="absolute right-0 bottom-0 h-44 w-44 rounded-full bg-white/5 blur-2xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent" />
+          </div>
+
+          <div className="relative flex items-start gap-4">
+            <div className="relative">
+              <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-white/15 to-white/5 border border-white/15 flex items-center justify-center font-semibold text-lg">
+                {initials}
               </div>
-              <p className="text-lg font-semibold">{leader.name}</p>
-              <p className="text-sm text-white/60">{leader.title}</p>
-              <p className="text-sm text-white/70 leading-relaxed">{leader.blurb}</p>
+              <div className="absolute -bottom-2 -right-2 h-6 px-2 rounded-full border border-white/15 bg-black/40 text-[10px] uppercase tracking-[0.18em] text-white/70 flex items-center">
+                Lead
+              </div>
             </div>
-          ))}
+
+            <div className="min-w-0">
+              <p className="text-lg font-semibold leading-snug">{leader.name}</p>
+              <p className="text-sm text-white/60">{leader.title}</p>
+            </div>
+          </div>
+
+          <div className="relative mt-4 h-px w-full bg-gradient-to-r from-white/15 via-white/5 to-transparent" />
+
+          <p className="relative mt-4 text-sm text-white/75 leading-relaxed">
+            {leader.blurb}
+          </p>
+
+          <div className="relative mt-5 flex flex-wrap gap-3">
+            <a
+              href={`mailto:info@a2properties.ae?subject=Meeting%20request%20with%20${encodeURIComponent(
+                leader.name
+              )}`}
+              className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10 transition"
+            >
+              Email
+            </a>
+            <a
+              href="/contact"
+              className="inline-flex items-center justify-center rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/15 transition"
+            >
+              Request a callback
+            </a>
+          </div>
         </div>
-      </section>
+      );
+    })}
+  </div>
+</section>
+
     </div>
   );
 };
