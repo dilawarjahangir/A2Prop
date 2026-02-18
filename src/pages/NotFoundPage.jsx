@@ -4,7 +4,7 @@ import GradientButton from "../components/GradientButton.jsx";
 
 const NotFoundPage = () => {
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-6 py-16 relative overflow-hidden text-white">
+    <div className="min-h-screen flex items-center justify-center px-6 py-16 relative overflow-hidden text-white">
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#101010] via-[#0b0b0b] to-[#050505]" />
       <div className="absolute -left-16 -top-16 h-64 w-64 rounded-full bg-[#7DF5CA]/10 blur-3xl" />
       <div className="absolute -right-24 top-10 h-72 w-72 rounded-full bg-white/10 blur-[120px]" />
@@ -18,7 +18,7 @@ const NotFoundPage = () => {
         </div>
 
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight">
-          We couldnâ€™t find the page you were looking for.
+          We couldn't find the page you were looking for.
         </h1>
 
         <p className="text-white/70 text-base sm:text-lg max-w-2xl mx-auto">
@@ -47,28 +47,23 @@ const NotFoundPage = () => {
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
             <p className="text-xs uppercase tracking-[0.12em] text-white/60 mb-1">Popular</p>
             <Link to="/properties" className="text-sm font-semibold hover:text-white transition">
-              View all listings â†'
+              View all listings →
             </Link>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <p className="text-xs uppercase tracking-[0.12em] text-white/60 mb-1">Featured</p>
-            <a
-              href="https://a2-properties.map.estate/"
-              target="_blank"
-              rel="noreferrer"
+            <p className="text-xs uppercase tracking-[0.12em] text-white/60 mb-1">Talk to us</p>
+            <Link
+              to="/contact-us"
               className="text-sm font-semibold hover:text-white transition"
             >
-              Explore AI map &rarr;
-            </a>
+              Contact our team →
+            </Link>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <p className="text-xs uppercase tracking-[0.12em] text-white/60 mb-1">Need help?</p>
-            <a
-              href="mailto:info@a2properties.ae"
-              className="text-sm font-semibold hover:text-white transition"
-            >
-              Contact our team â†'
-            </a>
+            <p className="text-xs uppercase tracking-[0.12em] text-white/60 mb-1">Browse</p>
+            <Link to="/blog" className="text-sm font-semibold hover:text-white transition">
+              Read insights →
+            </Link>
           </div>
         </div>
       </div>

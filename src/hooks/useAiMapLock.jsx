@@ -7,6 +7,7 @@ import React, {
   useState,
 } from "react";
 import UnlockAiMapModal from "../components/UnlockAiMapModal.jsx";
+import { request } from "../api/client.js";
 
 const STORAGE_KEY = "aiMapUnlocked";
 const STORAGE_CONTACT_KEY = "aiMapContact";
@@ -62,7 +63,18 @@ export const AiMapLockProvider = ({ children }) => {
   }, []);
 
   const unlock = useCallback(
-    (payload) => {
+    async (payload) => {
+      try {
+        await request("/api/v1/notifications/ai-map", {
+          method: "POST",
+          body: payload,
+          timeout: 8000,
+        });
+      } catch (err) {
+        // log to console but don't block unlock flow
+        console.warn("AI Map email send failed", err?.message || err);
+      }
+
       setIsUnlocked(true);
       setContact(payload);
       persist(payload);
